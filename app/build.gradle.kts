@@ -11,17 +11,30 @@ android {
         applicationId = "com.fastvideosplitter.app"
         minSdk = 26
         targetSdk = 35
-        versionCode = 3
-        versionName = "1.0-v3"
+        versionCode = 4
+        versionName = "1.0-v4"
     }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+        isCoreLibraryDesugaringEnabled = false
     }
 
+    // Force every Java compiler task in this module to emit JVM 17 bytecode.
+    tasks.withType<JavaCompile>().configureEach {
+        options.release.set(17)
+    }
+
+    // Kotlin 2.x: explicitly force the Kotlin compiler target to JVM 17.
     kotlinOptions {
         jvmTarget = "17"
+    }
+
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+        kotlinOptions {
+            jvmTarget = "17"
+        }
     }
 
     buildTypes {

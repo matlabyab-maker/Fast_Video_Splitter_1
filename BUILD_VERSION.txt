@@ -1,2 +1,4 @@
-Fast Video Splitter - BuildFixed v3
-Fix: Java/Kotlin JVM target mismatch (both target JVM 17).
+Fast Video Splitter - BuildFixed v5
+Fix: removed android-actions/setup-android package installation because it requests legacy 'tools'.
+The workflow now uses the runner's installed sdkmanager directly and installs only required SDK packages.
+JDK 17 / Gradle 8.9 / Android API 35 retained.
