@@ -1,0 +1,50 @@
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#171717">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:padding="6dp"
+        android:gravity="center_vertical">
+
+        <Button android:id="@+id/openButton" android:layout_width="wrap_content" android:layout_height="match_parent" android:text="Open Video"/>
+        <Button android:id="@+id/analyzeButton" android:layout_width="wrap_content" android:layout_height="match_parent" android:text="Analyze Scenes"/>
+        <Button android:id="@+id/deleteButton" android:layout_width="wrap_content" android:layout_height="match_parent" android:text="Delete Selected"/>
+        <Button android:id="@+id/splitButton" android:layout_width="wrap_content" android:layout_height="match_parent" android:text="Split"/>
+        <Button android:id="@+id/mergeButton" android:layout_width="wrap_content" android:layout_height="match_parent" android:text="Merge/Export"/>
+        <Button android:id="@+id/outputButton" android:layout_width="wrap_content" android:layout_height="match_parent" android:text="Output Folder"/>
+
+        <TextView
+            android:id="@+id/statusText"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|end"
+            android:textColor="#FFFFFF"
+            android:paddingEnd="12dp"
+            android:text="No video selected"/>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/sceneRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="8dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="105dp"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <TextView android:id="@+id/timelineText" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="#FFFFFF" android:text="Timeline: select a scene"/>
+
+        <SeekBar android:id="@+id/startSeek" android:layout_width="match_parent" android:layout_height="32dp"/>
+        <SeekBar android:id="@+id/endSeek" android:layout_width="match_parent" android:layout_height="32dp"/>
+    </LinearLayout>
+</LinearLayout>
