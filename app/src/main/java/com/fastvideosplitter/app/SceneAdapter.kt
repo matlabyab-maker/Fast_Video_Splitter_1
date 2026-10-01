@@ -1,41 +1,41 @@
-
 package com.fastvideosplitter.app
 
+import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.fastvideosplitter.app.databinding.ItemSceneBinding
+import java.util.Locale
 
-class SceneAdapter(
-    private val items: MutableList<Scene>,
-    private val onClick: (Scene) -> Unit,
-    private val onMove: (Int, Int) -> Unit
-) : RecyclerView.Adapter<SceneAdapter.VH>() {
+class SceneAdapter(private val scenes: MutableList<Scene>) :
+    RecyclerView.Adapter<SceneAdapter.Holder>() {
 
-    inner class VH(val b: ItemSceneBinding): RecyclerView.ViewHolder(b.root)
+    class Holder(v: View) : RecyclerView.ViewHolder(v) {
+        val thumb: ImageView = v.findViewById(com.fastvideosplitter.app.R.id.sceneThumb)
+        val info: TextView = v.findViewById(com.fastvideosplitter.app.R.id.sceneInfo)
+    }
 
-    override fun onCreateViewHolder(p: ViewGroup, v: Int) =
-        VH(ItemSceneBinding.inflate(LayoutInflater.from(p.context), p, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder =
+        Holder(LayoutInflater.from(parent.context).inflate(R.layout.item_scene, parent, false))
 
-    override fun onBindViewHolder(h: VH, pos: Int) {
-        val s = items[pos]
-        h.b.info.text = "Scene ${"%03d".format(s.id)}" +
-                if (s.human) " (Humen)" else "" +
-                "\n${fmt(s.startMs)} - ${fmt(s.endMs)}"
-        h.b.thumb.setImageBitmap(s.thumbnail)
-        h.b.select.isChecked = s.selected
-        h.b.select.setOnClickListener { s.selected = h.b.select.isChecked; onClick(s) }
-        h.b.root.setOnClickListener { onClick(s) }
-        h.b.root.setOnLongClickListener {
-            if (bindingAdapterPosition > 0) onMove(bindingAdapterPosition, bindingAdapterPosition - 1)
-            true
+    override fun getItemCount() = scenes.size
+
+    override fun onBindViewHolder(holder: Holder, position: Int) {
+        val s = scenes[position]
+        holder.thumb.setBackgroundColor(Color.DKGRAY)
+        val human = if (s.human) " (Humen)" else ""
+        holder.info.text = "Scene ${s.number}$human\n${fmt(s.startMs)} - ${fmt(s.endMs)}  |  ${fmt(s.durationMs)}"
+        holder.itemView.setBackgroundColor(if (s.selected) 0xFFE0E0E0.toInt() else Color.TRANSPARENT)
+        holder.itemView.setOnClickListener {
+            s.selected = !s.selected
+            notifyItemChanged(position)
         }
     }
 
-    override fun getItemCount() = items.size
-
     private fun fmt(ms: Long): String {
-        val sec = ms / 1000
-        return "%02d:%02d".format(sec / 60, sec % 60)
+        val total = ms / 1000
+        return String.format(Locale.US, "%02d:%02d", total / 60, total % 60)
     }
 }

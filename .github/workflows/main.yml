@@ -2,13 +2,9 @@ name: Android Build
 
 on:
   push:
-    branches:
-      - main
-      - master
+    branches: [main, master]
   pull_request:
-    branches:
-      - main
-      - master
+    branches: [main, master]
   workflow_dispatch:
 
 permissions:
@@ -17,7 +13,6 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -31,24 +26,18 @@ jobs:
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
-        with:
-          packages: ''
 
       - name: Install required Android SDK packages
         run: |
           sdkmanager --sdk_root="${ANDROID_SDK_ROOT}"             "platform-tools"             "platforms;android-35"             "build-tools;35.0.0"
 
       - name: Accept Android SDK licenses
-        run: |
-          yes | sdkmanager --sdk_root="${ANDROID_SDK_ROOT}" --licenses || true
+        run: yes | sdkmanager --sdk_root="${ANDROID_SDK_ROOT}" --licenses || true
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
-
-      - name: Verify Gradle
-        run: gradle --version
 
       - name: Build debug APK
         run: gradle --no-daemon --stacktrace assembleDebug
