@@ -1,0 +1,2 @@
+Fast Video Splitter - BuildFixed v2
+Workflow fix: no legacy Android SDK 'tools' package; JDK setup updated to v5.
