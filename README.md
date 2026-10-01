@@ -23,3 +23,8 @@ The requested filename marker is exactly `Humen`.
 ## Build
 
 Open the folder in Android Studio and let Gradle sync. Build the debug APK.
+
+
+## Build
+
+The repository includes `.github/workflows/main.yml` for an Android debug build. Push the project to GitHub and run the **Android Build** workflow; the generated APK is uploaded as a workflow artifact named `Fast-Video-Splitter-debug`.
