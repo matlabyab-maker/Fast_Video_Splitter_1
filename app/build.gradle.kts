@@ -15,32 +15,29 @@ android {
         versionName = "1.0-v4"
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-        isCoreLibraryDesugaringEnabled = false
-    }
-
     // Force every Java compiler task in this module to emit JVM 17 bytecode.
     tasks.withType<JavaCompile>().configureEach {
-        options.release.set(17)
+
     }
 
     // Kotlin 2.x: explicitly force the Kotlin compiler target to JVM 17.
-    kotlinOptions {
-        jvmTarget = "17"
-    }
 
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-        kotlinOptions {
-            jvmTarget = "17"
-        }
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
         }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
     }
 }
 

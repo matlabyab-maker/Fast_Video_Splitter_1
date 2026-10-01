@@ -2,13 +2,9 @@ name: Android Build
 
 on:
   push:
-    branches:
-      - main
-      - master
+    branches: [main, master]
   pull_request:
-    branches:
-      - main
-      - master
+    branches: [main, master]
   workflow_dispatch:
 
 permissions:
@@ -29,42 +25,34 @@ jobs:
           java-version: '17'
           cache: gradle
 
-      - name: Prepare Android SDK
-        shell: bash
-        run: |
-          set -e
-          echo "ANDROID_SDK_ROOT=${ANDROID_SDK_ROOT:-$ANDROID_HOME}"
-          SDKMANAGER="${ANDROID_SDK_ROOT:-$ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager"
-          if [ ! -x "$SDKMANAGER" ]; then
-            SDKMANAGER="$(command -v sdkmanager)"
-          fi
-          echo "Using sdkmanager: $SDKMANAGER"
-          yes | "$SDKMANAGER" --licenses > /dev/null || true
-          "$SDKMANAGER"             "platform-tools"             "platforms;android-35"             "build-tools;35.0.0"
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
 
-      - name: Verify Android SDK
-        shell: bash
+      - name: Install required Android SDK packages
         run: |
-          set -e
-          echo "ANDROID_SDK_ROOT=${ANDROID_SDK_ROOT:-$ANDROID_HOME}"
-          ls -la "${ANDROID_SDK_ROOT:-$ANDROID_HOME}/platforms/android-35"
-          ls -la "${ANDROID_SDK_ROOT:-$ANDROID_HOME}/build-tools/35.0.0"
+          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+
+      - name: Accept Android SDK licenses
+        run: |
+          yes | sdkmanager --licenses > /dev/null || true
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
 
-      - name: Verify Gradle
-        run: gradle --version
+      - name: Verify toolchain
+        run: |
+          java -version
+          gradle --version
 
-      - name: Clean project
+      - name: Clean
         run: gradle --no-daemon clean
 
       - name: Build debug APK
         run: gradle --no-daemon --stacktrace assembleDebug
 
-      - name: Upload debug APK
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: Fast-Video-Splitter-debug

@@ -1,4 +1,4 @@
-Fast Video Splitter - BuildFixed v5
-Fix: removed android-actions/setup-android package installation because it requests legacy 'tools'.
-The workflow now uses the runner's installed sdkmanager directly and installs only required SDK packages.
-JDK 17 / Gradle 8.9 / Android API 35 retained.
+Fast Video Splitter - BuildFixed v6
+Java/Kotlin compilation standardized on JVM 17.
+Removed JavaCompile options.release configuration because it is unnecessary for this Android build.
+Video editing/splitting code and dependencies were not intentionally removed.
