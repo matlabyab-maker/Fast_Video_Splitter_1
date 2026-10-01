@@ -1,10 +1,17 @@
+# Gradle
 .gradle/
 build/
 */build/
 local.properties
+
+# Android Studio
 .idea/
 *.iml
+
+# Outputs
 *.apk
 *.aab
+
+# Keep GitHub workflow files tracked
 !.github/
 !.github/workflows/

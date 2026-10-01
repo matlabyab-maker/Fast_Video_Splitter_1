@@ -20,11 +20,7 @@ The final renderer should use FFmpeg stream-copy (`-c copy`) whenever all retain
 
 The requested filename marker is exactly `Humen`.
 
-## Build
-
-Open the folder in Android Studio and let Gradle sync. Build the debug APK.
-
 
 ## Build
 
-The repository includes `.github/workflows/main.yml` for an Android debug build. Push the project to GitHub and run the **Android Build** workflow; the generated APK is uploaded as a workflow artifact named `Fast-Video-Splitter-debug`.
+GitHub Actions builds the debug APK on pushes/pull requests to `main` or `master`, or manually with `workflow_dispatch`. The workflow installs only the required Android SDK packages and does not run the interactive SDK license command that caused the previous runner failure. The APK is uploaded as `Fast-Video-Splitter-debug`.
